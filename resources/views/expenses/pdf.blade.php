@@ -4,30 +4,91 @@
     <meta charset="utf-8">
     <title>Expenses PDF</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        .header-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            color: #111827;
+            margin: 40px;
         }
-        .header-container img {
-            height: 50px;
-            margin-right: 15px;
-        }
-        .header-container h2 {
+
+        h2, h4 {
             margin: 0;
+            padding: 0;
+        }
+
+        .header-container {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4b5563;
+        }
+
+        .header-container h2 {
+            font-size: 24px;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .header-container h4 {
+            font-size: 16px;
+            font-weight: normal;
+            color: #374151;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        thead {
+            background-color: #f3f4f6;
+        }
+
+        th {
+            padding: 10px;
+            border: 1px solid #9ca3af;
+            text-align: left;
+            background-color: #e5e7eb;
+            color: #111827;
+        }
+
+        td {
+            padding: 9px 10px;
+            border: 1px solid #d1d5db;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f9fafb;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        strong {
+            color: #1f2937;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+            border-top: 1px solid #d1d5db;
+            padding-top: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="header-container">
-       {{-- <img src="{{ public_path('storage/images/expenseLogo.png') }}" alt="Logo" style="height: 50px;"> --}}
+        {{-- <img src="{{ public_path('storage/images/expenseLogo.png') }}" alt="Logo" style="height: 50px;"> --}}
         <h2>
-            Expense Report for {{ Auth::user()->name }} - {{ \Carbon\Carbon::createFromDate(null, $month)->format('F') }} {{ $year }}
+            Hey, {{ Auth::user()->name }}
         </h2>
+        <h4>
+            Your Monthly Budget of -- <b>{{ \Carbon\Carbon::createFromDate(null, $month)->format('F') }} {{ $year }}</b> is: <b>₹{{ number_format($totalBudget, 2) }}</b>
+        </h4>
     </div>
 
     <table>
@@ -65,5 +126,10 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="footer">
+        This PDF is generated from <strong>Expense Tracker</strong>.
+    </div>
+
 </body>
 </html>
